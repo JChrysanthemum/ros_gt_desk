@@ -11,6 +11,8 @@ from pymodbus.datastore import ModbusSequentialDataBlock, ModbusSlaveContext, Mo
 import os
 from os.path import join as pj
 import json
+import math
+from typing import Any, Iterable
 
 # Config json file Address and port replace
 REAL_ADDR = "192.168.2.152"
@@ -21,11 +23,13 @@ FAKE_PORT = 1502
 
 current_file_path = os.path.abspath(__file__)
 cfg_root = "/".join(current_file_path.split("/")[:-2])
-_fs = ["AddressTable","motor_config","PLC_Config"]
+
+_fs = ["PLC_Config"]
 
 def _rep_inf(_addr, _port):
     """Replace 'host' and 'port' value in json file
     """
+  
     for f in _fs:
         _pth = pj(cfg_root, "config", f"{f}.json")
         if not os.path.exists(_pth):
