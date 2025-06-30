@@ -1,0 +1,20 @@
+﻿Version,1,,,,,,
+Number,Variable Name,Data Type,Data Value 1,Data Value 2,Data Value 3,Data Value 4,Comments
+1,D1000,DINT,,,,,X axis emergency stop
+2,D1002,DINT,,,,,X-axis home offset 
+3,D1004,DINT,,,,,X-axis home start
+4,D1006,DINT,,,,,X axis absolute position
+5,D1008,DINT,,,,,X axis absolute positioning speed
+6,D1010,DINT,,,,,X axis absolute positioning acceleration
+7,D1012,DINT,,,,,X axis relative position
+8,D1014,DINT,,,,,X axis relative positioning speed
+9,D1016,DINT,,,,,X axis relative positioning acceleration
+10,D1020,DINT,,,,,Y axis emergency stop
+11,D1022,DINT,,,,,Y-axis home offset
+12,D1024,DINT,,,,,Y-axis home start
+13,D1026,DINT,,,,,Y axis absolute position
+14,D1028,DINT,,,,,Y axis absolute positioning speed
+15,D1030,DINT,,,,,Y axis absolute positioning acceleration
+16,D1032,DINT,,,,,Y axis relative position
+17,D1034,DINT,,,,,Y axis relative positioning speed
+18,D1036,DINT,,,,,Y axis relative positioning acceleration

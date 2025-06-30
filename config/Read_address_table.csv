@@ -1,0 +1,17 @@
+﻿Version,1,,,,,,
+Number,Variable Name,Data Type,Data Value 1,Data Value 2,Data Value 3,Data Value 4,Comments
+17,D1100,DINT,,,,,X axis 1 current status
+18,D1102,DINT,,,,,X axis 1 axis fault code
+19,D1104,DINT,,,,,X axis 1 servo fault code
+20,D1106,DINT,,,,,X axis 1 current position
+21,D1108,DINT,,,,,X axis 1 current speed
+22,D1110,DINT,,,,,X axis 2 current status
+23,D1112,DINT,,,,,X axis 2 axis fault code
+24,D1114,DINT,,,,,X axis 2 servo fault code
+25,D1116,DINT,,,,,X axis 2 current position
+26,D1118,DINT,,,,,X axis 2 current speed
+27,D1120,DINT,,,,,Y axis current status
+28,D1122,DINT,,,,,Y axis fault code
+29,D1124,DINT,,,,,Y axis servo fault code
+30,D1126,DINT,,,,,Y axis current position
+31,D1128,DINT,,,,,Y axis current speed

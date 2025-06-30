@@ -1,0 +1,187 @@
+{
+    "host": "127.0.0.1",
+    "registers": {
+        "motor_enable": [
+            1040,
+            "RW",
+            "D[0,1]"
+        ],
+        "motor_power_enable": [
+            1042,
+            "RW",
+            "D[0,1]"
+        ],
+        "motor_voltage": [
+            1044,
+            "RW",
+            "C[1500-4800]"
+        ],
+        "x_stop": [
+            1000,
+            "W",
+            ""
+        ],
+        "x_zero_offset": [
+            1002,
+            "W",
+            ""
+        ],
+        "x_zero_start": [
+            1004,
+            "W",
+            ""
+        ],
+        "x_abs_pos": [
+            1006,
+            "W",
+            ""
+        ],
+        "x_abs_pos_spd": [
+            1008,
+            "W",
+            ""
+        ],
+        "x_abs_pos_acc": [
+            1010,
+            "W",
+            ""
+        ],
+        "x_rel_pos": [
+            1012,
+            "W",
+            ""
+        ],
+        "x_rel_pos_spd": [
+            1014,
+            "W",
+            ""
+        ],
+        "x_rel_pos_acc": [
+            1016,
+            "W",
+            ""
+        ],
+        "y_stop": [
+            1020,
+            "W",
+            ""
+        ],
+        "y_zero_offset": [
+            1022,
+            "W",
+            ""
+        ],
+        "y_zero_start": [
+            1024,
+            "W",
+            ""
+        ],
+        "y_abs_pos": [
+            1026,
+            "W",
+            ""
+        ],
+        "y_abs_pos_spd": [
+            1028,
+            "W",
+            ""
+        ],
+        "y_abs_pos_acc": [
+            1030,
+            "W",
+            ""
+        ],
+        "y_rel_pos": [
+            1032,
+            "W",
+            ""
+        ],
+        "y_rel_pos_spd": [
+            1034,
+            "W",
+            ""
+        ],
+        "y_rel_pos_acc": [
+            1036,
+            "W",
+            ""
+        ],
+        "x1_cur_status": [
+            1100,
+            "R",
+            ""
+        ],
+        "x1fault code": [
+            1102,
+            "R",
+            ""
+        ],
+        "x1_servo_err_code": [
+            1104,
+            "R",
+            ""
+        ],
+        "x1_cur_pos": [
+            1106,
+            "R",
+            ""
+        ],
+        "x1_cur_spd": [
+            1108,
+            "R",
+            ""
+        ],
+        "x2_cur_status": [
+            1110,
+            "R",
+            ""
+        ],
+        "x2_err_code": [
+            1112,
+            "R",
+            ""
+        ],
+        "x2_servo_err_code": [
+            1114,
+            "R",
+            ""
+        ],
+        "x2_cur_pos": [
+            1116,
+            "R",
+            ""
+        ],
+        "x2_cur_spd": [
+            1118,
+            "R",
+            ""
+        ],
+        "y_cur_status": [
+            1120,
+            "R",
+            ""
+        ],
+        "y_err_code": [
+            1122,
+            "R",
+            ""
+        ],
+        "y_servo_err_code": [
+            1124,
+            "R",
+            ""
+        ],
+        "y_cur_pos": [
+            1126,
+            "R",
+            ""
+        ],
+        "y_cur_spd": [
+            1128,
+            "R",
+            ""
+        ]
+    },
+    "port": 1502,
+    "polling_rate": 10
+}
