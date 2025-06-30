@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="ros_gt_desk" type="ros_gt_desk" name = "ros_gt_desk" output="screen"/>
+</launch>

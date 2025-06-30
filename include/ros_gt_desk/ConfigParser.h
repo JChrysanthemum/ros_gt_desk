@@ -50,9 +50,9 @@ bool isConvertibleToInt(const std::string& str) {
 
 
 
-class ConfigParser {
+class configParser {
 public:
-    explicit ConfigParser(const std::string& path) {
+    explicit configParser(const std::string& path) {
         std::ifstream f(path);
         if(!f.is_open()) throw std::runtime_error("Cannot open config file");
         try{
@@ -62,21 +62,6 @@ public:
         }
     }
 
-    std::string getHost() const {
-        return data_["host"];
-    }
-
-    std::int16_t getPort() const {
-        return data_["port"];
-    }
-
-    uint16_t getRegister(const std::string& name) const {
-        return data_["registers"][name];
-    }
-
-    std::int16_t getPollingRate() const {
-        return data_["polling_rate"];
-    }
 
     /** Get json value from keys
      * 

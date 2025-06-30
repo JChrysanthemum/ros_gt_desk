@@ -2,8 +2,7 @@
 #include <ros/ros.h>
 #include "ros/package.h"
 #include "ros_gt_desk/modbus_wrapper.h"
-#include "ros_gt_desk/ConfigParser.h"
-#include "ros_gt_desk/MotorStatus.h"
+#include "ros_gt_desk/configParser.h"
 #include "ros_gt_desk/MotorControl.h"
 #include "ros_gt_desk/SliderControl.h"
 
@@ -12,7 +11,7 @@ class DeskControl {
 public:
     // The json file that contains host port register-settings for PLC
     const std::string cfg_path = ros::package::getPath("ros_gt_desk") + "/config/PLC_config.json";
-    ConfigParser cfg_map = ConfigParser(cfg_path);
+    configParser cfg_map = configParser(cfg_path);
 
 private:
     ros::NodeHandle nh;
@@ -38,16 +37,24 @@ public:
             ROS_FATAL("Modbus initialization failed: %s", e.what());
             ros::shutdown();
         }
+        
+        
 
         // ROS接口
-        pub_motor = nh.advertise<ros_gt_desk::MotorStatus>("/gt_desk/motor_status", 10);
-        sub_motor = nh.subscribe("/gt_desk/motor_control", 10, &DeskControl::motorCallback, this);
+        pub_motor = nh.advertise<ros_gt_desk::MotorControl>("/gt_desk/mower_status", 10);
+        ROS_INFO("Mower status will be show at /gt_desk/mower_status");
+        sub_motor = nh.subscribe("/gt_desk/mower_control", 10, &DeskControl::motorCallback, this);
+        ROS_INFO("Send msg to /gt_desk/mower_control to enable and control mower");
+
 
         pub_slider = nh.advertise<ros_gt_desk::SliderControl>("/gt_desk/slider_status", 10);
+        // ROS_INFO("Slider status will be show at /gt_desk/slider_status"); // Not implemented
         sub_slider = nh.subscribe("/gt_desk/slider_control", 10, &DeskControl::sliderCallback, this);
+        ROS_INFO("Send msg to /gt_desk/slider_control to [stop/zero/abs_move/rel_move] sliders");
         
+
         // 定时状态读取
-        timer_ = nh.createTimer(ros::Duration(1.0/cfg_map.getPollingRate()),
+        timer_ = nh.createTimer(ros::Duration(1.0/cfg_map.getValueByPath<int>("polling_rate")),
                                &DeskControl::timerCallback, this);
     }
 
@@ -154,6 +161,7 @@ private:
 int main(int argc, char** argv) {
     ros::init(argc, argv, "ros_gt_desk_node");
     DeskControl controller;
+    ROS_INFO("PLC Control Node Started");
     ros::spin();
     return 0;
 }

@@ -17,8 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   ros_gt_msg
 )
 
-catkin_python_setup()
-
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(PkgConfig REQUIRED)
@@ -63,14 +61,8 @@ pkg_check_modules(LIBMODBUS REQUIRED libmodbus)
 
 add_message_files(
   FILES
-  operhand.msg
-  MotorStatus.msg
   MotorControl.msg
   SliderControl.msg
-  Control.msg
-  CtrlDetail.msg
-  CtrlNoParam.msg
-  Status.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -160,14 +152,6 @@ target_link_libraries(modbus_wrapper ${LIBMODBUS_LIBRARIES})
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/ros_gt_desk_node.cpp)
 
-add_executable(motor_controller src/motor_controller.cpp)
-target_include_directories(motor_controller PRIVATE /usr/include/nlohmann)
-target_link_libraries(motor_controller
-  modbus_wrapper
-  ${catkin_LIBRARIES}
-  ${NLOHMANN_JSON_LIBRARIES}
-)
-
 add_executable(ros_gt_desk src/ros_gt_desk.cpp)
 target_link_libraries(ros_gt_desk
   modbus_wrapper
@@ -205,8 +189,8 @@ target_link_libraries(ros_gt_desk
 # )
 
 catkin_install_python(PROGRAMS
-  scripts/node.py
-  scripts/listen.py
+  scripts/modbus_dummy.py
+  scripts/modbus_reader.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

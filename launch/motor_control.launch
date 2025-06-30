@@ -1,5 +1,0 @@
-<launch>
-    <node pkg="ros_gt_desk" type="ros_gt_desk" name = "ros_gt_desk" output="screen"/>
-    <node pkg="ros_gt_desk" type="motor_controller" name = "motor_controller_node" output="screen"/>
-    <node pkg="ros_gt_desk" type="node.py" name = "slider_controller_node" output="screen"/>
-</launch>
