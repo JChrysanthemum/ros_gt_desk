@@ -4,6 +4,7 @@
 #include "ros_gt_desk/modbus_wrapper.h"
 #include "ros_gt_desk/configParser.h"
 #include "ros_gt_desk/MotorControl.h"
+#include "ros_gt_desk/MotorStatus.h"
 #include "ros_gt_desk/SliderControl.h"
 
 class DeskControl {
@@ -65,19 +66,28 @@ public:
 
 private:
     void motorCallback(const ros_gt_desk::MotorControl::ConstPtr& msg) {
+        // - 启动顺序 1.使能数控电源. 2.给输出电压,1500-4800之间，使能电机，
+        // - 关闭顺序 1.关闭电机，2.关闭数控电源
         try {
-            // 电源控制
-            modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_power_cmd.0"), msg->power_cmd ? 1 : 0);
-            
-            // 电机控制
-            if (msg->power_cmd) {
-                if (msg->voltage >= 1500 &&  msg->voltage <= 4800) {
-                    modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"), msg->voltage);
-                    modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0"), msg->motor_cmd ? 1 : 0);
-                }
+            if (msg->mode >= 1){
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_power_cmd.0"), 1);
+                // Wait for PLC device to enable up
+                ros::Duration(0.1).sleep(); 
+                int voltage = (msg->voltage >= 1500 &&  msg->voltage <= 4800) ? msg->voltage : 1500;
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"), voltage);
+                ros::Duration(0.1).sleep(); 
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0"), 1);
+            //     
+            }else
+            {
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0"), 0);
+                ros::Duration(0.1).sleep(); 
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"), 0);
+                ros::Duration(0.1).sleep(); 
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_power_cmd.0"), 0);
             }
         } catch (const std::exception& e) {
-            ROS_ERROR("Control command failed: %s", e.what());
+            ROS_ERROR("Mower control command failed: %s", e.what());
         }
     }
 
@@ -141,13 +151,13 @@ private:
     }
 
     void timerCallback(const ros::TimerEvent&) {
-        ros_gt_desk::MotorControl msg;
+        ros_gt_desk::MotorStatus msg;
         try {
             // @todo ADD slider status, PLC_Config.json Address [1100-1128] with "R" right
             // @todo ADD two axis loc check
-            msg.power_state = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_power_enable.0")) > 0;
-            msg.motor_state = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0")) > 0;
-            msg.position_feedback = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"));
+            msg.power = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_power_enable.0")) > 0;
+            msg.motor = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0")) > 0;
+            msg.voltage = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"));
 
             pub_motor.publish(msg);
         } catch (const std::exception& e) {

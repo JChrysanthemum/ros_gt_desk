@@ -62,6 +62,7 @@ pkg_check_modules(LIBMODBUS REQUIRED libmodbus)
 add_message_files(
   FILES
   MotorControl.msg
+  MotorStatus.msg
   SliderControl.msg
 )
 

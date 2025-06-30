@@ -1,7 +1,5 @@
-int32 power_cmd
-int32 motor_cmd
+# 0 (close) 1 (open)
+int32 mode
+# 1500 mv to 4500 mv, if 0 set to 1500
 int32 voltage
 
-int32 power_state
-int32 motor_state
-int32 position_feedback
