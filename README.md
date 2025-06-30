@@ -29,15 +29,6 @@ The original version (`CtrNoParam.msg` for zeroing, `node.py` for sending, `oper
 ```
 
 
-<style>
-table th:first-of-type {
-    width: 20%;
-}
-table th:nth-of-type(2) {
-    width: 80%;
-}
-</style>
-
 
 File|Comment
 -----|-----
@@ -49,18 +40,6 @@ File|Comment
 [modbus_dummy.py](scripts/modbus_dummy.py)| For **DEBUGING**, create a virtual PLC server at localhost, that you can test your new code locally.
 [modbus_reader.py](scripts/modbus_reader.py) | For **DEBUGING**, check the name of corresponding register in PLC. Check name in [PLC_Config.json](config/PLC_Config.json).
 
-
-<style>
-table th:first-of-type {
-    width: 20%;
-}
-table th:nth-of-type(2) {
-    width: 15%;
-}
-table th:nth-of-type(3) {
-    width: 65%;
-}
-</style>
 
 
 Topic|Device|Message
