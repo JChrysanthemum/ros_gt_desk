@@ -28,6 +28,7 @@ The original version (`CtrNoParam.msg` for zeroing, `node.py` for sending, `oper
 └── src              # ros cpp source file
 ```
 
+
 <style>
 table th:first-of-type {
     width: 20%;
@@ -36,6 +37,7 @@ table th:nth-of-type(2) {
     width: 80%;
 }
 </style>
+
 
 File|Comment
 -----|-----
@@ -46,6 +48,7 @@ File|Comment
 [ros_gt_desk.cpp](src/ros_gt_desk.cpp)| Control node for all devices. You can find topic and corresponding msg here.
 [modbus_dummy.py](scripts/modbus_dummy.py)| For **DEBUGING**, create a virtual PLC server at localhost, that you can test your new code locally.
 [modbus_reader.py](scripts/modbus_reader.py) | For **DEBUGING**, check the name of corresponding register in PLC. Check name in [PLC_Config.json](config/PLC_Config.json).
+
 
 <style>
 table th:first-of-type {
@@ -58,6 +61,7 @@ table th:nth-of-type(3) {
     width: 65%;
 }
 </style>
+
 
 Topic|Device|Message
 -----|-----|-----
