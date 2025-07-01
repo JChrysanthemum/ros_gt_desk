@@ -4,7 +4,7 @@
 #include <ros/ros.h>
 #include <sys/types.h>
 // #include "ros_gt_msg/gt_motion.h"
-#include "ros_gt_desk/modbus_wrapper.h"
+#include "modbus_wrapper.h"
 #include "modbus.h"
 
 

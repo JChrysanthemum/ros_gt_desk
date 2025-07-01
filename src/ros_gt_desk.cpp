@@ -1,8 +1,8 @@
 // 主控制节点
 #include <ros/ros.h>
 #include "ros/package.h"
-#include "ros_gt_desk/modbus_wrapper.h"
-#include "ros_gt_desk/configParser.h"
+#include "modbus_wrapper.h"
+#include "configParser.h"
 #include "ros_gt_desk/MotorControl.h"
 #include "ros_gt_desk/MotorStatus.h"
 #include "ros_gt_desk/SliderControl.h"
