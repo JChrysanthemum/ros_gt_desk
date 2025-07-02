@@ -6,6 +6,7 @@
 #include "ros_gt_desk/MotorControl.h"
 #include "ros_gt_desk/MotorStatus.h"
 #include "ros_gt_desk/SliderControl.h"
+#include "ros_gt_desk/SliderStatus.h"
 
 class DeskControl {
 
@@ -48,8 +49,8 @@ public:
         ROS_INFO("Send msg to /gt_desk/mower_control to enable and control mower");
 
 
-        pub_slider = nh.advertise<ros_gt_desk::SliderControl>("/gt_desk/slider_status", 10);
-        // ROS_INFO("Slider status will be show at /gt_desk/slider_status"); // Not implemented
+        pub_slider = nh.advertise<ros_gt_desk::SliderStatus>("/gt_desk/slider_status", 10);
+        ROS_INFO("Slider status will be show at /gt_desk/slider_status"); // Not implemented
         sub_slider = nh.subscribe("/gt_desk/slider_control", 10, &DeskControl::sliderCallback, this);
         ROS_INFO("Send msg to /gt_desk/slider_control to [stop/zero/abs_move/rel_move] sliders");
         
@@ -151,15 +152,37 @@ private:
     }
 
     void timerCallback(const ros::TimerEvent&) {
-        ros_gt_desk::MotorStatus msg;
+        ros_gt_desk::MotorStatus msg_motor;
+        ros_gt_desk::SliderStatus msg_slider;
         try {
             // @todo ADD slider status, PLC_Config.json Address [1100-1128] with "R" right
             // @todo ADD two axis loc check
-            msg.power = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_power_enable.0")) > 0;
-            msg.motor = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0")) > 0;
-            msg.voltage = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"));
+            msg_motor.power = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_power_enable.0")) > 0;
+            msg_motor.motor = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0")) > 0;
+            msg_motor.voltage = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"));
+            pub_motor.publish(msg_motor);
 
-            pub_motor.publish(msg);
+
+            msg_slider.pos_x1 = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.x1_cur_pos.0"));
+            msg_slider.pos_x2 = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.x2_cur_pos.0"));
+            msg_slider.pos_y = modbus_plc->readRegister(cfg_map.getValueByPath<int>("registers.y_cur_pos.0"));
+
+            std::vector<std::string> err_name = {"x1_cur_status","x1_err_code","x1_servo_err_code","x2_cur_status","x2_err_code","x2_servo_err_code","y_cur_status","y_err_code","y_servo_err_code"};
+            
+            std::vector<std::string> err_path;
+            for (const auto& name : err_name) {
+                err_path.push_back("registers." + name + ".0");
+            }
+
+            std::vector<int> err_codes = {};
+            for (const auto& _path : err_path) {
+                err_codes.push_back(modbus_plc->readRegister(cfg_map.getValueByPath<int>(_path)));
+            }
+
+            msg_slider.err_code = err_codes;
+            pub_slider.publish(msg_slider);
+
+
         } catch (const std::exception& e) {
             ROS_ERROR("Status reading failed: %s", e.what());
         }

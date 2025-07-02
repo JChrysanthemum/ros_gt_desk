@@ -64,6 +64,7 @@ add_message_files(
   MotorControl.msg
   MotorStatus.msg
   SliderControl.msg
+  SliderStatus.msg
 )
 
 ## Generate services in the 'srv' folder
