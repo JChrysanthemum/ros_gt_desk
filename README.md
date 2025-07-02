@@ -43,8 +43,8 @@ File|Comment
 
 Topic|Device|Message
 -----|-----|-----
-/gt_desk/mower_control | Mower Control| [MotorControl.msg](msg/MotorControl.msg)
-/gt_desk/mower_status | Mower Surveillance | [MotorControl.msg](msg/MotorControl.msg)  # same as control
+/gt_desk/mower_control | Mower Control| [MotorControl.msg](msg/MotorControl.msg) # Mode for on/off and Voltage for speed
+/gt_desk/mower_status | Mower Surveillance | [MotorStatus.msg](msg/MotorStatus.msg)  # Status of DCDC power enable and voltage, motor enable
 /gt_desk/slider_control | Sliders Control| [SliderControl.msg](msg/SliderControl.msg) # x,y is a list has three value, so x [1,2,3]
 /gt_desk/slider_control | Sliders Surveillance| [SliderStatus.msg](msg/SliderStatus.msg) # Abs loc and debugging codes 
 
