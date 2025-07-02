@@ -46,6 +46,7 @@ Topic|Device|Message
 /gt_desk/mower_control | Mower Control| [MotorControl.msg](msg/MotorControl.msg)
 /gt_desk/mower_status | Mower Surveillance | [MotorControl.msg](msg/MotorControl.msg)  # same as control
 /gt_desk/slider_control | Sliders Control| [SliderControl.msg](msg/SliderControl.msg) # x,y is a list has three value, so x [1,2,3]
+/gt_desk/slider_control | Sliders Control| [SliderStatus.msg](msg/SliderStatus.msg)| Abs loc and debugging codes
 
 
 # 3. Enviroment setup
