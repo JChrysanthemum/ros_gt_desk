@@ -11,7 +11,12 @@ print(pymodbus.__version__)
 import os
 from os.path import join as pj
 import json
-from modbus_dummy import REAL_ADDR,REAL_PORT,FAKE_ADDR,FAKE_PORT
+
+REAL_ADDR = "192.168.2.152"
+REAL_PORT = 502
+
+FAKE_ADDR = "127.0.0.1"
+FAKE_PORT = 1502
 
 FAKE_PLC = True
 

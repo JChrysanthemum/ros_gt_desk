@@ -12,7 +12,7 @@ class DeskControl {
 
 public:
     // The json file that contains host port register-settings for PLC
-    const std::string cfg_path = ros::package::getPath("ros_gt_desk") + "/config/PLC_config.json";
+    const std::string cfg_path = ros::package::getPath("ros_gt_desk") + "/config/PLC_Config.json";
     configParser cfg_map = configParser(cfg_path);
 
 private:
@@ -43,7 +43,7 @@ public:
         
 
         // ROS接口
-        pub_motor = nh.advertise<ros_gt_desk::MotorControl>("/gt_desk/mower_status", 10);
+        pub_motor = nh.advertise<ros_gt_desk::MotorStatus>("/gt_desk/mower_status", 10);
         ROS_INFO("Mower status will be show at /gt_desk/mower_status");
         sub_motor = nh.subscribe("/gt_desk/mower_control", 10, &DeskControl::motorCallback, this);
         ROS_INFO("Send msg to /gt_desk/mower_control to enable and control mower");
@@ -71,21 +71,22 @@ private:
         // - 关闭顺序 1.关闭电机，2.关闭数控电源
         try {
             if (msg->mode >= 1){
-                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_power_cmd.0"), 1);
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_power_enable.0"), 1);
                 // Wait for PLC device to enable up
-                ros::Duration(0.1).sleep(); 
+                ros::Duration(0.2).sleep(); 
                 int voltage = (msg->voltage >= 1500 &&  msg->voltage <= 4800) ? msg->voltage : 1500;
                 modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"), voltage);
-                ros::Duration(0.1).sleep(); 
+                ros::Duration(0.2).sleep(); 
                 modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0"), 1);
+                ROS_INFO("MODE 1 ENABLE");
             //     
             }else
             {
                 modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_enable.0"), 0);
-                ros::Duration(0.1).sleep(); 
+                ros::Duration(0.2).sleep(); 
                 modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_voltage.0"), 0);
-                ros::Duration(0.1).sleep(); 
-                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_power_cmd.0"), 0);
+                ros::Duration(0.2).sleep(); 
+                modbus_plc->writeRegister(cfg_map.getValueByPath<int>("registers.motor_power_enable.0"), 0);
             }
         } catch (const std::exception& e) {
             ROS_ERROR("Mower control command failed: %s", e.what());
